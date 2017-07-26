@@ -1,10 +1,13 @@
 package matrixbegins.collection;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.util.*;
 
 /**
  * Created by ankur pandey on 25/7/17.
- * Class takes a nested Hashmap and creates a flat Hashmap and give ways to access it.
+ * Class takes a nested Hashmap or a JSON String and creates a flat Hashmap and give ways to access it.
  * Ideal for nested Json objects and json arrays etc.
  * Ideally the top level JSON should be simple object. Class can handle nested objects and keys
  */
@@ -37,7 +40,27 @@ public class FlatMap {
         init();
     }
 
-    public FlatMap(String jsonStr, String objectName){
+    public FlatMap(String jsonStr, String objectName) throws IOException{
+
+        ObjectMapper abc = new ObjectMapper();
+
+        HashMap<String, Object> temp = abc.readValue(jsonStr, HashMap.class);
+
+        this.source = temp;
+        this.objectName = objectName;
+        init();
+
+    }
+
+    public FlatMap(String jsonStr) throws IOException{
+
+        ObjectMapper abc = new ObjectMapper();
+
+        HashMap<String, Object> temp = abc.readValue(jsonStr, HashMap.class);
+
+        this.source = temp;
+        this.objectName = MAIN_KEY;
+        init();
 
     }
 
